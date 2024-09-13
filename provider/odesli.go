@@ -77,7 +77,6 @@ func (d *OdesliProvider) getSongFromResponse(resp *odesli.GetLinksResponse) stri
 			return val.Title
 		}
 	}
-
 	return ""
 }
 
