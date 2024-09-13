@@ -94,6 +94,14 @@ func (b *DiscordBot) processMusicLink(link string, msg *discordgo.Message) {
 		return
 	}
 
+	log.Printf(
+		"Got %d links for %s by %s %s\n",
+		len(response.PlatformLinks),
+		response.SongName,
+		response.Artist,
+		link,
+	)
+
 	// Parsed links
 	parsedLinks := make(map[string]string)
 	for _, platformLink := range response.PlatformLinks {
