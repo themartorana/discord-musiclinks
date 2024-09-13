@@ -62,9 +62,6 @@ func (b *DiscordBot) HandleMessage(session *discordgo.Session, msg *discordgo.Me
 	if msg.Author.ID == session.State.User.ID {
 		return
 	}
-	if msg.ChannelID != "1283451097159307317" {
-		return
-	}
 
 	go b.processMessage(msg.Message)
 }
