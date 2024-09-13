@@ -59,7 +59,7 @@ func StartBot(token string, platforms ...string) *DiscordBot {
 
 func (b *DiscordBot) HandleMessage(session *discordgo.Session, msg *discordgo.MessageCreate) {
 	// Ignore own messages
-	if msg.Author.ID == session.State.User.ID {
+	if msg.Author.Bot {
 		return
 	}
 
