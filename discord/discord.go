@@ -143,7 +143,7 @@ func (b *DiscordBot) respondToMessageWithLinks(
 
 	message := discordgo.MessageSend{
 		Content:   sb.String(),
-		Reference: msg.MessageReference,
+		Reference: msg.Reference(),
 		Flags: discordgo.MessageFlagsSuppressEmbeds |
 			discordgo.MessageFlagsSuppressNotifications,
 	}
