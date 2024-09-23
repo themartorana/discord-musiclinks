@@ -20,17 +20,21 @@ type DiscordBot struct {
 	provider      *provider.OdesliProvider
 }
 
-var patterns = []string{
-	"open.spotify.com",
-	"tidal.com",
-	"music.apple.com/us/album",
-	"music.youtube.com",
-	"music.amazon.com",
-	"pandora.com",
-	"deezer.com",
-	"soundcloud.com",
-	"napster.com",
-}
+var (
+	msgCount  int
+	linkCount int
+	patterns  = []string{
+		"open.spotify.com",
+		"tidal.com",
+		"music.apple.com/us/album",
+		"music.youtube.com",
+		"music.amazon.com",
+		"pandora.com",
+		"deezer.com",
+		"soundcloud.com",
+		"napster.com",
+	}
+)
 
 func StartBot(token string, platforms ...string) *DiscordBot {
 	session, err := discordgo.New("Bot " + token)
@@ -55,6 +59,12 @@ func StartBot(token string, platforms ...string) *DiscordBot {
 }
 
 func (b *DiscordBot) HandleMessage(session *discordgo.Session, msg *discordgo.MessageCreate) {
+	msgCount++
+
+	if msgCount%100 == 0 {
+		log.Printf("Handled %d messages, %d links\n", msgCount, linkCount)
+	}
+
 	// Ignore own messages
 	if msg.Author.Bot {
 		return
@@ -80,6 +90,7 @@ func (b *DiscordBot) processMessage(msg *discordgo.Message) {
 	}
 
 	for _, link := range musicLinks {
+		linkCount++
 		go b.processMusicLink(link, msg)
 	}
 }
