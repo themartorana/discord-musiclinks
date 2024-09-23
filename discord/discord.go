@@ -18,8 +18,6 @@ type DiscordBot struct {
 	session       *discordgo.Session
 	xurlsSearcher *regexp.Regexp
 	provider      *provider.OdesliProvider
-
-	end chan struct{}
 }
 
 var patterns = []string{
@@ -44,7 +42,6 @@ func StartBot(token string, platforms ...string) *DiscordBot {
 		token:         token,
 		session:       session,
 		platforms:     platforms,
-		end:           make(chan struct{}),
 		xurlsSearcher: xurls.Strict(),
 		provider:      provider.NewOdesliProvider(),
 	}
@@ -161,11 +158,4 @@ func (b *DiscordBot) respondToMessageWithLinks(
 
 func (b *DiscordBot) Close() {
 	b.session.Close()
-	b.session = nil
-	b.end <- struct{}{}
-	close(b.end)
-}
-
-func (b *DiscordBot) EndChan() <-chan struct{} {
-	return b.end
 }

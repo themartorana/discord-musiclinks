@@ -4,6 +4,8 @@ import (
 	"log"
 	"musiclinks/discord"
 	"musiclinks/provider"
+	"os"
+	"os/signal"
 	"strings"
 
 	"github.com/bigspawn/go-odesli"
@@ -36,7 +38,11 @@ func main() {
 		log.Println("Starting Discord bot...")
 		if startBot {
 			b := discord.StartBot(token, platforms...)
-			<-b.EndChan()
+
+			quit := make(chan os.Signal, 1)
+			signal.Notify(quit, os.Interrupt)
+			<-quit
+			b.Close()
 		}
 	}
 }
