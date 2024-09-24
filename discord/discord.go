@@ -61,7 +61,7 @@ func StartBot(token string, platforms ...string) *DiscordBot {
 func (b *DiscordBot) HandleMessage(session *discordgo.Session, msg *discordgo.MessageCreate) {
 	msgCount++
 
-	if msgCount%100 == 0 {
+	if msgCount%10 == 0 {
 		log.Printf("Handled %d messages, %d links\n", msgCount, linkCount)
 	}
 
