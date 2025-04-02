@@ -58,7 +58,10 @@ func StartBot(token string, platforms ...string) *DiscordBot {
 	return b
 }
 
-func (b *DiscordBot) HandleMessage(session *discordgo.Session, msg *discordgo.MessageCreate) {
+func (b *DiscordBot) HandleMessage(
+	session *discordgo.Session,
+	msg *discordgo.MessageCreate,
+) {
 	msgCount++
 
 	if msgCount%10 == 0 {
@@ -83,7 +86,8 @@ func (b *DiscordBot) processMessage(msg *discordgo.Message) {
 	var musicLinks []string
 	for _, url := range urls {
 		for _, pattern := range patterns {
-			if strings.Contains(url, pattern) && !slices.Contains(musicLinks, url) {
+			if strings.Contains(url, pattern) &&
+				!slices.Contains(musicLinks, url) {
 				musicLinks = append(musicLinks, url)
 			}
 		}
@@ -109,6 +113,10 @@ func (b *DiscordBot) processMusicLink(link string, msg *discordgo.Message) {
 		response.Artist,
 		link,
 	)
+
+	for _, platformLink := range response.PlatformLinks {
+		log.Printf(" - %s: %s\n", platformLink.Platform, platformLink.Link)
+	}
 
 	// Parsed links
 	parsedLinks := make(map[string]string)
