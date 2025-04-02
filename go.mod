@@ -1,6 +1,6 @@
 module musiclinks
 
-go 1.22.3
+go 1.24.1
 
 require (
 	github.com/bigspawn/go-odesli v0.0.3
