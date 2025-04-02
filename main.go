@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"strings"
+	"time"
 
 	"github.com/bigspawn/go-odesli"
 	"github.com/spf13/pflag"
@@ -16,6 +17,7 @@ import (
 var (
 	token     string
 	debug     bool
+	ping      bool
 	platforms []string
 
 	url      string
@@ -48,6 +50,11 @@ func main() {
 			<-quit
 			b.Close()
 		}
+	}
+
+	if ping {
+		log.Println("Starting keep-alive ping...")
+		logPing()
 	}
 }
 
@@ -101,6 +108,8 @@ func init() {
 	pflag.BoolVarP(&startBot, "bot", "b", false, "Start the discord bot")
 	pflag.BoolVarP(&debug, "debug", "d", false, "Enable debug mode")
 
+	pflag.BoolVarP(&ping, "ping", "p", false, "Enable log keep-alive notices")
+
 	pflag.StringArrayVarP(
 		&platforms,
 		"platform",
@@ -109,4 +118,15 @@ func init() {
 		helpForPlatformsFlag(),
 	)
 	pflag.Parse()
+}
+
+// logPing simply adds a ping to the log
+// periodically to show the bot is still alive
+func logPing() {
+	go func() {
+		for {
+			log.Println("Still here...")
+			time.Sleep(5 * time.Minute)
+		}
+	}()
 }
