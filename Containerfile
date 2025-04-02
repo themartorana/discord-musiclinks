@@ -15,5 +15,7 @@ RUN git pull --all
 # Install the required packages
 RUN go build -o bot *.go
 
+ENV DISCORD_TOKEN "YOUR TOKEN HERE"
+
 # Run the bot
-CMD ["./bot", "-b", "-p", "tidal", "-p", "spotify", "-t", "MTI4MzA5OTczMTE3MzU3MjY5OQ.Gc256W.-0GBH0ut3iK2b-dz1twMJ83aWfO4vTVyev5EDM"]
+CMD ["./bot", "-b", "-p", "tidal", "-p", "spotify"]

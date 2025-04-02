@@ -25,6 +25,10 @@ var (
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
+	// Token
+	if token == "" {
+		token = os.Getenv("DISCORD_TOKEN")
+	}
 	if url == "" && !startBot {
 		log.Fatal("URL or start bot flag must be specified")
 	}
