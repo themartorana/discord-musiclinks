@@ -17,7 +17,7 @@ import (
 var (
 	token     string
 	debug     bool
-	ping      bool
+	alive     bool
 	platforms []string
 
 	url      string
@@ -52,9 +52,9 @@ func main() {
 		}
 	}
 
-	if ping {
+	if alive {
 		log.Println("Starting keep-alive ping...")
-		logPing()
+		startAlivePing()
 	}
 }
 
@@ -108,7 +108,13 @@ func init() {
 	pflag.BoolVarP(&startBot, "bot", "b", false, "Start the discord bot")
 	pflag.BoolVarP(&debug, "debug", "d", false, "Enable debug mode")
 
-	pflag.BoolVarP(&ping, "ping", "p", false, "Enable log keep-alive notices")
+	pflag.BoolVarP(
+		&alive,
+		"alive",
+		"a",
+		false,
+		"Enable periodic acknowledgement to show the bot is alive",
+	)
 
 	pflag.StringArrayVarP(
 		&platforms,
@@ -120,12 +126,12 @@ func init() {
 	pflag.Parse()
 }
 
-// logPing simply adds a ping to the log
+// startAlivePing simply adds a ping to the log
 // periodically to show the bot is still alive
-func logPing() {
+func startAlivePing() {
 	go func() {
 		for {
-			log.Println("Still here...")
+			log.Println("Still alive...")
 			time.Sleep(5 * time.Minute)
 		}
 	}()
