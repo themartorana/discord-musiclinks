@@ -37,6 +37,10 @@ func main() {
 	if startBot && token == "" {
 		log.Fatal("Token must be specified to start the bot")
 	}
+	if alive {
+		log.Println("Starting keep-alive ping...")
+		startAlivePing()
+	}
 	if url != "" {
 		log.Println("Getting links for", url)
 		getLinksForUrl(url)
@@ -50,11 +54,6 @@ func main() {
 			<-quit
 			b.Close()
 		}
-	}
-
-	if alive {
-		log.Println("Starting keep-alive ping...")
-		startAlivePing()
 	}
 }
 
@@ -131,8 +130,8 @@ func init() {
 func startAlivePing() {
 	go func() {
 		for {
-			log.Println("Still alive...")
 			time.Sleep(5 * time.Minute)
+			log.Println("Still alive...")
 		}
 	}()
 }
