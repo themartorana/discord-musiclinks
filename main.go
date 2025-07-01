@@ -45,15 +45,17 @@ func main() {
 		log.Println("Getting links for", url)
 		getLinksForUrl(url)
 	} else if startBot {
-		log.Println("Starting Discord bot...")
-		if startBot {
-			b := discord.StartBot(token, platforms...)
-
-			quit := make(chan os.Signal, 1)
-			signal.Notify(quit, os.Interrupt)
-			<-quit
-			b.Close()
+		log.Println("Starting Discord bot for services:")
+		for _, platform := range platforms {
+			log.Printf(" - %s", platform)
 		}
+
+		b := discord.StartBot(token, platforms...)
+
+		quit := make(chan os.Signal, 1)
+		signal.Notify(quit, os.Interrupt)
+		<-quit
+		b.Close()
 	}
 }
 
