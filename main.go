@@ -130,7 +130,7 @@ func init() {
 func startAlivePing() {
 	go func() {
 		for {
-			time.Sleep(5 * time.Minute)
+			time.Sleep(60 * time.Minute)
 			log.Println("Still alive...")
 		}
 	}()

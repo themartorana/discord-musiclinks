@@ -18,4 +18,4 @@ RUN go build -o bot *.go
 ENV DISCORD_TOKEN "YOUR TOKEN HERE"
 
 # Run the bot
-CMD ["./bot", "-b", "-p", "tidal", "-p", "spotify"]
+CMD ["./bot", "-b", "-p", "tidal", "-p", "spotify", "-p", "youtube", "-p", "youtubeMusic", "-p", "appleMusic"]
