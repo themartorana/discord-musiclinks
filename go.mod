@@ -16,4 +16,4 @@ require (
 	golang.org/x/sys v0.33.0 // indirect
 )
 
-replace github.com/bigspawn/go-odesli v0.0.3 => github.com/themartorana/go-odesli v0.0.0-20241112202509-0adad3abccc9
+replace github.com/bigspawn/go-odesli v0.0.3 => github.com/themartorana/go-odesli v0.0.0-20250701220719-46c442e809e9
