@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"musiclinks/discord"
 	"musiclinks/provider"
@@ -15,10 +16,10 @@ import (
 )
 
 var (
-	token     string
-	debug     bool
-	alive     bool
-	platforms []string
+	discordToken string
+	debug        bool
+	alive        bool
+	platforms    []string
 
 	url      string
 	startBot bool
@@ -28,13 +29,13 @@ func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	// Token
-	if token == "" {
-		token = os.Getenv("DISCORD_TOKEN")
+	if discordToken == "" {
+		discordToken = os.Getenv("DISCORD_TOKEN")
 	}
 	if url == "" && !startBot {
 		log.Fatal("URL or start bot flag must be specified")
 	}
-	if startBot && token == "" {
+	if startBot && discordToken == "" {
 		log.Fatal("Token must be specified to start the bot")
 	}
 	if alive {
@@ -50,7 +51,8 @@ func main() {
 			log.Printf(" - %s", platform)
 		}
 
-		b := discord.StartBot(token, platforms...)
+		log.Print("Using discord token ", discordToken)
+		b := discord.StartBot(discordToken, platforms...)
 
 		quit := make(chan os.Signal, 1)
 		signal.Notify(quit, os.Interrupt)
@@ -103,7 +105,7 @@ Options are:
 }
 
 func init() {
-	pflag.StringVarP(&token, "token", "t", "", "Discord bot token")
+	pflag.StringVarP(&discordToken, "token", "t", "", "Discord bot token")
 	pflag.StringVarP(&url, "url", "u", "", "Original song or album URL")
 
 	pflag.BoolVarP(&startBot, "bot", "b", false, "Start the discord bot")
