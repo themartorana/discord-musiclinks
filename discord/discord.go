@@ -155,10 +155,17 @@ func (b *DiscordBot) respondToMessageWithLinks(
 		sb.WriteString("the song you requested:\n")
 	}
 
-	for platform, link := range links {
+	// Get platforms and sort them alphabetically
+	platforms := make([]string, 0, len(links))
+	for platform := range links {
+		platforms = append(platforms, platform)
+	}
+	slices.Sort(platforms)
+
+	for _, platform := range platforms {
 		sb.WriteString(platform)
 		sb.WriteString(": ")
-		sb.WriteString(link)
+		sb.WriteString(links[platform])
 		sb.WriteString("\n")
 	}
 
