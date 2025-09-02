@@ -6,6 +6,7 @@ import (
 	"musiclinks/provider"
 	"os"
 	"os/signal"
+	"sort"
 	"strings"
 	"time"
 
@@ -46,6 +47,7 @@ func main() {
 		getLinksForUrl(url)
 	} else if startBot {
 		log.Println("Starting Discord bot for services:")
+		sort.Strings(platforms)
 		for _, platform := range platforms {
 			log.Printf(" - %s", platform)
 		}
