@@ -16,17 +16,35 @@ import (
 )
 
 var (
-	discordToken string
-	debug        bool
-	alive        bool
-	platforms    []string
+	discordToken   string
+	debug          bool
+	alive          bool
+	platformsFlag  string
+	platforms      []string
 
 	url      string
 	startBot bool
+
+	// Build information (set via ldflags)
+	buildHash = "dev"
 )
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	log.Printf("Build: %s", buildHash)
+
+	// Platforms
+	if platformsFlag == "" {
+		platformsFlag = os.Getenv("MUSICLINKS_PLATFORMS")
+	}
+	if platformsFlag != "" {
+		platforms = strings.Split(platformsFlag, ",")
+		// Trim whitespace from each platform
+		for i, platform := range platforms {
+			platforms[i] = strings.TrimSpace(platform)
+		}
+	}
 
 	// Token
 	if discordToken == "" {
@@ -120,12 +138,12 @@ func init() {
 		"Enable periodic acknowledgement to show the bot is alive",
 	)
 
-	pflag.StringArrayVarP(
-		&platforms,
-		"platform",
+	pflag.StringVarP(
+		&platformsFlag,
+		"platforms",
 		"p",
-		[]string{},
-		helpForPlatformsFlag(),
+		"",
+		helpForPlatformsFlag()+"\nComma-separated list (e.g., 'tidal,spotify,youtube')",
 	)
 	pflag.Parse()
 }

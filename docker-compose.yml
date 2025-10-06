@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  discord-musiclinks:
+    image: golang:1-alpine
+    working_dir: /app
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - MUSICLINKS_PLATFORMS=${MUSICLINKS_PLATFORMS:-tidal,spotify,youtube,youtubeMusic,appleMusic}
+    restart: unless-stopped
+    container_name: discord-musiclinks-bot
+    command: >
+      sh -c "
+      apk update &&
+      apk add git &&
+      git clone https://github.com/themartorana/discord-musiclinks.git . &&
+      git pull --all &&
+      go build -ldflags \"-X main.buildHash=\$$(git rev-parse --short HEAD)\" -o bot *.go &&
+      ./bot -b
+      "

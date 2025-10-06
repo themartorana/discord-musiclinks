@@ -121,7 +121,8 @@ func (b *DiscordBot) processMusicLink(link string, msg *discordgo.Message) {
 	// Parsed links
 	parsedLinks := make(map[string]string)
 	for _, platformLink := range response.PlatformLinks {
-		if slices.Contains(b.platforms, string(platformLink.Platform)) {
+		if len(b.platforms) == 0 ||
+			slices.Contains(b.platforms, string(platformLink.Platform)) {
 			parsedLinks[platformLink.Platform.ReadableName()] = platformLink.Link
 		}
 	}

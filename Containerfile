@@ -13,17 +13,10 @@ RUN git clone https://github.com/themartorana/discord-musiclinks.git .
 RUN git pull --all
 
 # Install the required packages
-RUN go build -o bot *.go
+RUN go build -ldflags "-X main.buildHash=$(git rev-parse --short HEAD)" -o bot *.go
 
 ENV DISCORD_TOKEN ""
+ENV MUSICLINKS_PLATFORMS "tidal,spotify,youtube,youtubeMusic,appleMusic"
 
 # Run the bot
-CMD [ \
-    "./bot", \
-    "-b", \
-    "-p", "tidal", \
-    "-p", "spotify", \
-    "-p", "youtube", \
-    "-p", "youtubeMusic", \
-    "-p", "appleMusic", \
-    ]
+CMD ["./bot", "-b"]
