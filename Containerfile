@@ -1,4 +1,4 @@
-FROM golang:1.24.2-alpine
+FROM golang:1-alpine
 
 # Set the working directory
 WORKDIR /app
@@ -15,7 +15,7 @@ RUN git pull --all
 # Install the required packages
 RUN go build -o bot *.go
 
-ENV DISCORD_TOKEN "YOUR TOKEN HERE"
+ENV DISCORD_TOKEN ""
 
 # Run the bot
 CMD [ \
@@ -26,5 +26,4 @@ CMD [ \
     "-p", "youtube", \
     "-p", "youtubeMusic", \
     "-p", "appleMusic", \
-    "-t", "MTI4MzA5OTczMTE3MzU3MjY5OQ.Gc256W.-0GBH0ut3iK2b-dz1twMJ83aWfO4vTVyev5EDM" \
     ]

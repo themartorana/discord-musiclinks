@@ -143,14 +143,14 @@ func (b *DiscordBot) respondToMessageWithLinks(
 	msg *discordgo.Message,
 ) {
 	var sb strings.Builder
-	sb.WriteString("Links for ")
+	sb.WriteString("Listen to ")
 	if songName != "" {
-		sb.WriteString("_" + songName + "_")
+		sb.WriteString("***" + songName + "***")
 		if artist != "" {
 			sb.WriteString(" by ")
-			sb.WriteString("_" + artist + "_")
+			sb.WriteString("***" + artist + "***")
 		}
-		sb.WriteString(":\n")
+		sb.WriteString(" on ")
 	} else {
 		sb.WriteString("the song you requested:\n")
 	}
@@ -162,12 +162,17 @@ func (b *DiscordBot) respondToMessageWithLinks(
 	}
 	slices.Sort(platforms)
 
-	for _, platform := range platforms {
-		sb.WriteString(platform)
-		sb.WriteString(": ")
-		sb.WriteString(links[platform])
-		sb.WriteString("\n")
+	// Links
+	for i, platform := range platforms {
+		if i == len(platforms)-1 && len(platforms) > 1 {
+			sb.WriteString(", and ")
+		} else if i > 0 {
+			sb.WriteString(", ")
+		}
+
+		sb.WriteString("[" + platform + "](" + links[platform] + ")")
 	}
+	sb.WriteString("\n")
 
 	message := discordgo.MessageSend{
 		Content:   sb.String(),
