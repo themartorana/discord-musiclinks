@@ -6,15 +6,21 @@ services:
     working_dir: /app
     environment:
       - MUSICLINKS_DISCORD_TOKEN=${MUSICLINKS_DISCORD_TOKEN}
-      - MUSICLINKS_PLATFORMS=${MUSICLINKS_PLATFORMS:-tidal,spotify,youtube,youtubeMusic,appleMusic}
+      - MUSICLINKS_PLATFORMS=${MUSICLINKS_PLATFORMS}
     restart: unless-stopped
     container_name: discord-musiclinks-bot
     command: >
       sh -c "
       apk update &&
       apk add git &&
+      TMPDIR=\$$(mktemp -d) &&
+      cd \$$TMPDIR &&
       git clone https://github.com/themartorana/discord-musiclinks.git . &&
       git pull --all &&
       go build -ldflags \"-X main.buildHash=\$$(git rev-parse --short HEAD)\" -o bot *.go &&
+      rm -f /app/bot &&
+      cp bot /app/bot &&
+      cd /app &&
+      rm -rf \$$TMPDIR &&
       ./bot -b
       "
