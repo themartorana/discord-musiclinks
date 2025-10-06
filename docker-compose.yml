@@ -5,7 +5,7 @@ services:
     image: golang:1-alpine
     working_dir: /app
     environment:
-      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - MUSICLINKS_DISCORD_TOKEN=${MUSICLINKS_DISCORD_TOKEN}
       - MUSICLINKS_PLATFORMS=${MUSICLINKS_PLATFORMS:-tidal,spotify,youtube,youtubeMusic,appleMusic}
     restart: unless-stopped
     container_name: discord-musiclinks-bot

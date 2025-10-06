@@ -15,7 +15,7 @@ RUN git pull --all
 # Install the required packages
 RUN go build -ldflags "-X main.buildHash=$(git rev-parse --short HEAD)" -o bot *.go
 
-ENV DISCORD_TOKEN ""
+ENV MUSICLINKS_DISCORD_TOKEN ""
 ENV MUSICLINKS_PLATFORMS "tidal,spotify,youtube,youtubeMusic,appleMusic"
 
 # Run the bot

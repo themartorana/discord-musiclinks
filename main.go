@@ -48,7 +48,7 @@ func main() {
 
 	// Token
 	if discordToken == "" {
-		discordToken = os.Getenv("DISCORD_TOKEN")
+		discordToken = os.Getenv("MUSICLINKS_DISCORD_TOKEN")
 	}
 	if url == "" && !startBot {
 		log.Fatal("URL or start bot flag must be specified")
